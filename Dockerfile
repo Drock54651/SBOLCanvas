@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:20-alpine
 
 RUN apk add openjdk8 bash
 
@@ -22,7 +22,7 @@ RUN npm install
 RUN npm rebuild node-sass
 RUN node --max-old-space-size=8192
 RUN npm run prebuild.prod
-RUN ng build --prod --build-optimizer --vendor-chunk --progress --output-hashing=all --stats-json --source-map=true --base-href=/canvas/
+RUN ng build --build-optimizer --vendor-chunk --progress --output-hashing=all --stats-json --source-map=true --base-href=/canvas/
 
 #RUN resources/build_automation/build_frontend.sh
 
