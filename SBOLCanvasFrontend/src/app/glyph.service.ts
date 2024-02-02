@@ -48,6 +48,7 @@ export class GlyphService {
         //'assets/glyph_stencils/sequence_feature/chromosomal-locus.xml',
         'assets/glyph_stencils/sequence_feature/transcription-end.xml',
         'assets/glyph_stencils/sequence_feature/translation-end.xml',
+        //'assets/glyph_stencils/sequence_feature/circular-plasmid.xml'
         //'assets/glyph_stencils/sequence_feature/test.xml',
     ];
 
@@ -89,11 +90,12 @@ export class GlyphService {
 
     private utilXMLBundle: string = "assets/glyph_stencils/util/bundle.xml";
     private utilXMLs: string[] = [
-        'assets/backbone.xml',
-        'assets/circular-plasmid-left.xml',
-        'assets/circular-plasmid-right.xml',
-        'assets/textBox.xml',
-        'assets/module.xml',
+        'assets/utils/backbone.xml',
+        'assets/utils/circular-plasmid-left.xml',
+        'assets/utils/circular-plasmid-right.xml',
+        'assets/utils/circular-plasmid.xml',
+        'assets/utils/textBox.xml',
+        'assets/utils/module.xml',
     ];
 
     private sequenceFeatures: any = {};
@@ -110,6 +112,7 @@ export class GlyphService {
     }
 
     loadXMLBundle(bundleFile) {
+
         let req = mx.mxUtils.load(bundleFile);
         let root = req.getDocumentElement();
         let shape = root.firstChild;
@@ -120,11 +123,12 @@ export class GlyphService {
                 const subDir = shape.getAttribute('subdir');
                 const centered = shape.getAttribute('centered');
 
-                console.log(shape);
+            
                 const stencil = new mx.mxStencil(shape);
                 this[subDir][name] = [stencil, (centered && centered.toLowerCase() == 'true')];
             }
             shape = shape.nextSibling;
+  
         }
     }
 

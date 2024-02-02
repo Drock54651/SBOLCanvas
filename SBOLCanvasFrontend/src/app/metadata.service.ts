@@ -93,20 +93,24 @@ export class MetadataService {
   }
 
   loadTypes(): Observable<any> {
+
     return this.http.get(this.typesURL);
   }
 
   loadRoles(): Observable<any> {
+
     return this.http.get(this.rolesURL);
   }
 
   loadRefinements(parent:string): Observable<any> {
     let params = new HttpParams();
     params = params.append("parent", parent);
+
     return this.http.get(this.refinementsURL, {params: params});
   }
 
   loadInteractions() : Observable<any> {
+
     return this.http.get(this.interactionsURL);
   }
 

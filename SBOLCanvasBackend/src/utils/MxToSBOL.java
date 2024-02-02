@@ -74,6 +74,7 @@ public class MxToSBOL extends Converter {
 	}
 
 	public MxToSBOL(HashMap<String, String> userTokens) {
+
 		infoDict = new Hashtable<String, Info>();
 		combinatorialDict = new Hashtable<String, CombinatorialInfo>();
 		interactionDict = new Hashtable<String, InteractionInfo>();
@@ -135,6 +136,7 @@ public class MxToSBOL extends Converter {
 			SBOLValidationException, TransformerFactoryConfigurationError, TransformerException, SynBioHubException {
 		// read in the mxGraph
 		mxGraph graph = parseGraph(graphStream);
+			
 		mxGraphModel model = (mxGraphModel) graph.getModel();
 		mxCell cell0 = (mxCell) model.getCell("0");
 		ArrayList<Object> dataContainer = (ArrayList<Object>) cell0.getValue();

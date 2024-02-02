@@ -47,6 +47,7 @@ export class GraphService extends GraphHelpers {
         // doing this via an Observable so we can debounce
         new Observable<any>(observer => {
             this.graph.getModel().addListener(mx.mxEvent.CHANGE, mx.mxUtils.bind(this, () => {
+                
                 observer.next(this.getGraphXML())
             }))
         })
@@ -181,7 +182,10 @@ export class GraphService extends GraphHelpers {
     }
 
     getSelectedCellID(): string {
+
         let selected = this.graph.getSelectionCells()
+        console.log("selected!!!")
+        console.log(selected)
         if (selected.length != 1) {
             return null
         }
@@ -859,7 +863,7 @@ export class GraphService extends GraphHelpers {
         } finally {
             this.graph.getModel().endUpdate()
         }
-
+        console.log(this.graph.getModel())
         return sequenceFeatureCell
     }
 

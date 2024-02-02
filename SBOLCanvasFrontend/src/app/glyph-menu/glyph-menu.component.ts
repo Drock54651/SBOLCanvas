@@ -121,6 +121,7 @@ export class GlyphMenuComponent implements OnInit, AfterViewInit {
       const svg = sequenceFeatureElts[name];
 
       this.sequenceFeatureDict[name] = this.sanitizer.bypassSecurityTrustHtml(svg.innerHTML);
+    
     }
 
     for (const name in utilElts) {
@@ -149,9 +150,9 @@ export class GlyphMenuComponent implements OnInit, AfterViewInit {
     this.graphService.addBackbone();
   }
 
-  addCircularPlasmid() {
-    this.graphService.addCircularPlasmid();
-  }
+  // addCircularPlasmid() {
+  //   this.graphService.addCircularPlasmid();
+  // }
 
   addTextBox() {
     this.graphService.addTextBox();

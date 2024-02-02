@@ -50,8 +50,9 @@ public class SBOLData {
 		roles.put("RBS (Ribosome Binding Site)", SequenceOntology.RIBOSOME_ENTRY_SITE);
 		roles.put("CDS (Coding Sequence)", SequenceOntology.CDS);
 		roles.put("Ter (Terminator)", SequenceOntology.TERMINATOR);
-		roles.put("Cir (Circular Backbone Left)", SequenceOntology.CIRCULAR);
-		roles.put("Cir (Circular Backbone Right)", SequenceOntology.CIRCULAR);
+		roles.put("Cir (Circular plasmid)", URI.create("http://identifiers.org/so/SO:0002211"));
+		// roles.put("Cir (Circular Backbone Left)", URI.create("http://identifiers.org/so/SO:0002211"));
+		// roles.put("Cir (Circular Backbone Right)",URI.create("http://identifiers.org/so/SO:0002211"));
 		roles.put("gRNA (Non-Coding RNA gene)", URI.create("http://identifiers.org/so/SO:0001263"));
 		roles.put("Ori (Origin of Replication)", SequenceOntology.ORIGIN_OF_REPLICATION);
 		roles.put("OriT (Origin of Transfer)", URI.create("http://identifiers.org/so/SO:0000724"));
@@ -175,10 +176,13 @@ public class SBOLData {
 			parentName = "NGA (No Glyph Assigned)";
 		}
 		TreeSet<String> refinementNames = new TreeSet<String>();
-		Set<URI> descendants = so.getDescendantURIsOf(roles.getValue(parentName));
-		for(URI uri : descendants) {
-			refinementNames.add(so.getName(uri));
+		if(roles.getValue(parentName)!= null){
+			Set<URI> descendants = so.getDescendantURIsOf(roles.getValue(parentName));
+			for(URI uri : descendants) {
+				refinementNames.add(so.getName(uri));
+			}
 		}
+	
 		return refinementNames.toArray(new String[0]);	
 	}
 	
