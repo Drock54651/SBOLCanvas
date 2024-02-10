@@ -671,14 +671,17 @@ export class GraphService extends GraphHelpers {
 
             // x depends on the exact selection
             let x
+            let a
             if (selection.isCircuitContainer()) {
                 x = selection.getGeometry().x + selection.getGeometry().width
+                a = selection.getGeometry().x;
             } else {
                 x = circuitContainer.getGeometry().x + selection.getGeometry().x + 1
             }
 
             // Add it
             await this.addSequenceFeatureAt(name, x, y, circuitContainer)
+            console.log(name, x, y, a, selection.getGeometry().width);
         } finally {
             this.graph.getModel().endUpdate()
         }
@@ -725,13 +728,13 @@ export class GraphService extends GraphHelpers {
             circCellLeft.stayAtBeginning = true
 
             // add the right side of the circular cell
-            const circCellRight = await this.addSequenceFeatureAt("Cir (Circular Backbone Right)",
-                x + circuitContainer.getGeometry().width, y,
-                circuitContainer, {
-                connectable: false,
-                glyphWidth: 1,
-            })
-            circCellRight.stayAtEnd = true
+            // const circCellRight = await this.addSequenceFeatureAt("Cir (Circular Backbone Right)",
+            //     x + circuitContainer.getGeometry().width, y,
+            //     circuitContainer, {
+            //     connectable: false,
+            //     glyphWidth: 1,
+            // })
+            // circCellRight.stayAtEnd = true
 
             // if the only cells are the backbone and the circular backbone the right circular backbone needs
             // to be repositioned and the size of the circuit container needs to reflect that
@@ -753,6 +756,7 @@ export class GraphService extends GraphHelpers {
      * glyph is added (first, second, etc)
      */
     async addSequenceFeatureAt(name, x, y, circuitContainer?, {
+
         connectable = true,
         glyphWidth = GraphBase.sequenceFeatureGlyphWidth,
         glyphStyle = undefined,
@@ -798,13 +802,18 @@ export class GraphService extends GraphHelpers {
             // transform coords to be relative to parent
             x = x - circuitContainer.getGeometry().x
             y = y - circuitContainer.getGeometry().y
-
+           
             // create the glyph info and add it to the dictionary
             const glyphInfo = new GlyphInfo({
                 partRole: name
             })
             this.addToInfoDict(glyphInfo)
-
+            console.log(glyphInfo.name);
+            
+            if (glyphInfo.name == "Cir"){
+                this.addCircularPlasmid()
+            }
+            
             // if the container is a circular backbone then both sides should have the same cellValue
             if (glyphWidth == 1) {
                 circuitContainer.children
@@ -863,7 +872,7 @@ export class GraphService extends GraphHelpers {
         } finally {
             this.graph.getModel().endUpdate()
         }
-        console.log(this.graph.getModel())
+
         return sequenceFeatureCell
     }
 
@@ -909,7 +918,7 @@ export class GraphService extends GraphHelpers {
             this.graph.getModel().endUpdate()
         }
 
-        console.log(this.graph.getModel().cells)
+
     }
 
     makeInteractionNodeDragsource(element, stylename) {
