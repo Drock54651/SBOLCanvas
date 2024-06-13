@@ -11,11 +11,12 @@ import { CombinatorialInfo } from './combinatorialInfo';
 import { VariableComponentInfo } from './variableComponentInfo';
 import { IdentifiedInfo } from './identifiedInfo';
 import { CustomShapes } from './CustomShapes';
+import { mxgraph } from 'mxgraph';
 
 // mx is used here as the typings file for mxgraph isn't up to date.
 // Also if it weren't exported, other classes wouldn't get our extensions of the mxCell class.
 declare var require: any;
-export const mx = require('mxgraph')({
+export const mx: typeof mxgraph = require('mxgraph')({
     mxImageBasePath: 'mxgraph/images',
     mxBasePath: 'mxgraph'
 });

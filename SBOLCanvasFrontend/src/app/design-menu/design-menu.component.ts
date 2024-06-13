@@ -5,9 +5,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {ColorPickerComponent} from '../color-picker/color-picker.component';
 import {StyleInfo} from '../style-info';
 import { MatSelectChange } from '@angular/material/select';
-
+import { mxgraph } from 'mxgraph';
 declare var require: any;
-const mx = require('mxgraph')({
+const mx: typeof mxgraph = require('mxgraph')({
   mxImageBasePath: 'mxgraph/images',
   mxBasePath: 'mxgraph'
 });
@@ -27,7 +27,7 @@ export class DesignMenuComponent implements OnInit {
   styleInfo: StyleInfo;
 
   // Put a reference to the mxGraph namespace in the class so it's accessible to the component's html part
-  mx: any = mx;
+  mx: mxgraph = mx;
 
   constructor(
     private metadataService: MetadataService,

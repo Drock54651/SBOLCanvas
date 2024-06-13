@@ -1,5 +1,6 @@
 /*tslint:disable*/
 
+
 export var mxClient: {
   VERSION: string;
   IS_IE: boolean;

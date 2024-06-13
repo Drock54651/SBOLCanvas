@@ -1,8 +1,8 @@
 import * as mxGraph from 'mxgraph';
 import * as mxCell from 'mxgraph';
-
+import { mxgraph } from 'mxgraph';
 declare var require: any;
-const mx = require('mxgraph')({
+const mx: typeof mxgraph = require('mxgraph')({
   mxImageBasePath: 'mxgraph/images',
   mxBasePath: 'mxgraph'
 });
