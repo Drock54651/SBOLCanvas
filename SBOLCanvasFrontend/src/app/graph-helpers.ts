@@ -1186,7 +1186,7 @@ export class GraphHelpers extends GraphBase {
                 glyphInfo = this.getFromInfoDict(this.graph.getCurrentRoot().getId())
             else
                 glyphInfo = this.getFromInfoDict(cell.value)
-            if (glyphInfo) {
+            if (glyphInfo && cell) {
                 if (cell.style === "circuitContainer") {
                     glyphInfo.sequence = ""
 

@@ -1730,22 +1730,25 @@ export class GraphService extends GraphHelpers {
         const cell0 = this.graph.getModel().getCell(0)
         const infoDict = []
         const combinatorialDict = []
+        const interactionDict = []
         var dataContainer = []
         dataContainer[GraphBase.INFO_DICT_INDEX] = infoDict
         dataContainer[GraphBase.COMBINATORIAL_DICT_INDEX] = combinatorialDict
+        dataContainer[GraphBase.INTERACTION_DICT_INDEX] = interactionDict  
+
         this.graph.getModel().setValue(cell0, dataContainer)
 
         const cell1 = this.graph.getModel().getCell(1)
         let rootViewCell
 
         // initalize the root view cell of the graph
-        if (moduleMode) {
+        if (moduleMode) { // This is Module Design mode if the user chooses, also it is Default option upon load up
             let rootModuleInfo = new ModuleInfo()
             this.addToInfoDict(rootModuleInfo)
             rootViewCell = this.graph.insertVertex(cell1, rootModuleInfo.getFullURI(), "", 0, 0, 0, 0, GraphBase.STYLE_MODULE_VIEW)
             this.graph.enterGroup(rootViewCell)
             this.viewStack.push(rootViewCell)
-        } else {
+        } else { // False means using Component Design mode
             let info = new GlyphInfo()
             this.addToInfoDict(info)
             rootViewCell = this.graph.insertVertex(cell1, info.getFullURI(), "", 0, 0, 0, 0, GraphBase.STYLE_COMPONENT_VIEW)
