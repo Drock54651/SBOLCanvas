@@ -648,6 +648,7 @@ export class GraphService extends GraphHelpers {
     */
     copy(){
         mx.mxClipboard.copy(this.graph, this.graph.getSelectionCells())
+        console.log(this.graph.getSelectionCell())
     }
     
     // Map old cells to newly created cells in the paste method 
@@ -967,7 +968,7 @@ export class GraphService extends GraphHelpers {
             // }
 
             // there cannot be more than one circular backbone on a circuit container
-            // if(circuitContainer.isCircularBackboneOnCircuitContainer()) return
+            if(circuitContainer.hasChromosomalLocus()) return
 
             // x is at the beginning of the circuit container
             let x = circuitContainer.getGeometry().x

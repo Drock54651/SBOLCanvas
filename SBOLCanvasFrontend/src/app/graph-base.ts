@@ -52,6 +52,7 @@ export class GraphBase {
 
     static readonly STYLE_CIRCUIT_CONTAINER = 'circuitContainer';
     static readonly STYLE_CIRCULAR_BACKBONE = 'sequenceFeatureGlyphCir';
+    static readonly STYLE_CHROMOSOMAL_LOCUS = 'sequenceFeatureGlyphChromo';
     static readonly STYLE_BACKBONE = 'backbone';
     static readonly STYLE_TEXTBOX = 'textBox';
     static readonly STYLE_MODULE = 'moduleGlyph';
@@ -420,6 +421,10 @@ export class GraphBase {
             return this.isStyle(GraphBase.STYLE_CIRCULAR_BACKBONE)
         }
 
+        mx.mxCell.prototype.isChromosomalLocus = function () {
+            return this.isStyle(GraphBase.STYLE_CHROMOSOMAL_LOCUS)
+        }
+
         mx.mxCell.prototype.isSequenceFeatureGlyph = function () {
             return this.isStyle(GraphBase.STYLE_SEQUENCE_FEATURE)
         }
@@ -471,6 +476,20 @@ export class GraphBase {
         if (this.isCircuitContainer()) {
             for (let cell of this.children) {
                 if (cell.isCircularBackbone()) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+        /**
+         * Returns true if a Chromosomal Locus is present
+         */
+        mx.mxCell.prototype.hasChromosomalLocus = function() {
+        if (this.isCircuitContainer()) {
+            for (let cell of this.children) {
+                if (cell.isChromosomalLocus()) {
                     return true
                 }
             }
