@@ -648,7 +648,6 @@ export class GraphService extends GraphHelpers {
     */
     copy(){
         mx.mxClipboard.copy(this.graph, this.graph.getSelectionCells())
-        console.log(this.graph.getSelectionCell())
     }
     
     // Map old cells to newly created cells in the paste method 
@@ -917,7 +916,7 @@ export class GraphService extends GraphHelpers {
             const circCellLeft = await this.addSequenceFeatureAt("Cir (Circular Backbone Left)",
                 x, y, circuitContainer, {
                 connectable: false,
-                glyphWidth: 1,
+                glyphWidth: 1
             })
             circCellLeft.stayAtBeginning = true
 
@@ -929,6 +928,69 @@ export class GraphService extends GraphHelpers {
                 glyphWidth: 1,
             })
             circCellRight.stayAtEnd = true
+            
+            // if the only cells are the backbone and the circular backbone the right circular backbone needs
+            // to be repositioned and the size of the circuit container needs to reflect that
+            if (circuitContainer.getGeometry().width == 2) {
+                this.repositionCircularBackbone(circuitContainer)
+            }
+        } finally {
+            this.graph.getModel().endUpdate()
+        }
+    }
+    async addChromosomalLocus() {
+        this.graph.getModel().beginUpdate()
+        console.log("chromo")
+        try {
+            if (!this.atLeastOneCircuitContainerInGraph()) {
+                // if there is no strand, quietly make one
+                // stupid user
+                this.addBackbone()
+                // this changes the selection, so the rest of this method works fine
+            }
+
+            // let the graph choose an arbitrary cell from the selection,
+            // we'll pretend it's the only one selected
+            const selection = this.graph.getSelectionCell()
+
+            // if selection is nonexistent, or is not part of a strand, there is no suitable place.
+            if (!selection || !(selection.isSequenceFeatureGlyph() || selection.isCircuitContainer())) {
+                return
+            }
+
+            const circuitContainer = selection.isCircuitContainer() ? selection : selection.getParent()
+
+            // Add additional type to Circuit Container if Circular present
+            // const circuitContainerGlyphInfo = (this.getGlyphInfo(circuitContainer))
+            // if(!circuitContainerGlyphInfo.otherTypes.includes("Circular")){
+            //     circuitContainerGlyphInfo.otherTypes.push("Circular")
+            // }
+
+            // there cannot be more than one circular backbone on a circuit container
+            // if(circuitContainer.isCircularBackboneOnCircuitContainer()) return
+
+            // x is at the beginning of the circuit container
+            let x = circuitContainer.getGeometry().x
+
+            // use y coord of the strand
+            let y = circuitContainer.getGeometry().y
+
+            // add the left side of the circular cell
+            const chromosomalCellLeft = await this.addSequenceFeatureAt("chromosomal-locus-left",
+                x, y, circuitContainer, {
+                connectable: false,
+                glyphWidth: 1
+            })
+            chromosomalCellLeft.stayAtBeginning = true
+
+            // add the right side of the circular cell
+            const chromosomalCellRight = await this.addSequenceFeatureAt("chromosomal-locus-right",
+                x + circuitContainer.getGeometry().width, y,
+                circuitContainer, {
+                connectable: false,
+                glyphWidth: 1,
+            })
+            chromosomalCellRight.stayAtEnd = true
             
             // if the only cells are the backbone and the circular backbone the right circular backbone needs
             // to be repositioned and the size of the circuit container needs to reflect that
@@ -1003,7 +1065,7 @@ export class GraphService extends GraphHelpers {
             this.addToInfoDict(glyphInfo)
 
             // if the container is a circular backbone then both sides should have the same cellValue
-            if (glyphWidth == 1) {
+            if (glyphWidth == 1 && circuitContainer.isCircularBackboneOnCircuitContainer()) {
                 circuitContainer.children
                     .filter(cell => cell.stayAtBeginning)
                     .forEach(child => {
