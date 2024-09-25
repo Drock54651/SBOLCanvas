@@ -1097,7 +1097,7 @@ export class GraphHelpers extends GraphBase {
         var cellsAdded = evt.getProperty('removed')
 
         // checks if either the left or right side of a circular backbone was selected
-        const cirBackboneFilter = sender.cells.filter(cell => cell.stayAtBeginning || cell.stayAtEnd)
+        const cirBackboneFilter = sender.cells.filter(cell => cell.isCircularBackbone() && cell.stayAtBeginning || cell.stayAtEnd)
 
         if (cirBackboneFilter.length > 0) {
             const parentCell = cirBackboneFilter[0].parent.children
