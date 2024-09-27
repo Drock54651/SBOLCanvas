@@ -472,7 +472,7 @@ export class GraphBase {
         /**
          * Returns true if there is a circular backbone on the current circuit container
         */
-        mx.mxCell.prototype.isCircularBackboneOnCircuitContainer = function() {
+        mx.mxCell.prototype.hasCircularBackbone = function() {
         if (this.isCircuitContainer()) {
             for (let cell of this.children) {
                 if (cell.isCircularBackbone()) {
@@ -1248,13 +1248,13 @@ export class GraphBase {
 
                     // special case where an empty circular backbone's circuit container is moved
                     // fixes the containers position and the right circular backbones x position
-                    if ((cell.isCircularBackboneOnCircuitContainer() || cell.hasChromosomalLocus() && cell.children.length === 3)) {
+                    if ((cell.hasCircularBackbone() || cell.hasChromosomalLocus() && cell.children.length === 3)) {
                         this.repositionCircularBackbone(cell)
                     }
                 }
 
                 // special case where a circular backbone is repositioned within a circuit container
-                if (movedCells[0].getParent().isCircularBackboneOnCircuitContainer()
+                if (movedCells[0].getParent().hasCircularBackbone() || movedCells[0].getParent().hasChromosomalLocus()
                     && movedCells.filter(cell => cell.stayAtBeginning || cell.stayAtEnd).length > 0
                     && movedCells[0].getParent().children.length === 3) {
                     this.repositionCircularBackbone(movedCells[0].getParent())
